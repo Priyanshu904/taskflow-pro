@@ -19,6 +19,8 @@ Dependency Engine
 
 The dependency engine operates on graph structures passed by the API; it has no FastAPI or database coupling. Readiness is computed from task statuses and dependency edges for each response, so it cannot drift from the persisted graph. The AI endpoint sends existing task titles and a proposed task to Groq, filters suggestions to known titles, and returns them for user review. Only explicit frontend approval calls the dependency creation endpoint, which always performs cycle validation.
 
+The live AI flow has been verified against Groq using the configured key and the `qwen/qwen3.8-27b` model. The “Prepare production deployment” example returned four suggestions, all matched existing task titles, and the task edge count did not change until one suggestion was explicitly approved through `POST /dependencies`. The approved edge appeared in `GET /tasks`; a reverse edge was rejected as a cycle. The process-level missing-key fallback also returned the documented HTTP 503 without modifying the root `.env`.
+
 ## Data Model
 
 | Table | Field | Type | Meaning |

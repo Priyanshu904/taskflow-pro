@@ -223,7 +223,7 @@ def suggest_dependencies(body: SuggestInput):
     with Session() as db:
         titles = [task.title for task in db.query(Task).all()]
     client = OpenAI(api_key=key, base_url="https://api.groq.com/openai/v1")
-    response = client.chat.completions.create(model="llama-3.3-70b-versatile", response_format={"type": "json_object"}, messages=[{"role": "system", "content": "Suggest prerequisite task titles only from the supplied list. Return JSON: {suggestions:[{title,confidence,rationale}]}. Do not invent titles."}, {"role": "user", "content": f"Existing task titles: {titles}\nNew task title: {body.title}\nNew task description: {body.description}"}])
+    response = client.chat.completions.create(model="qwen/qwen3.8-27b", response_format={"type": "json_object"}, messages=[{"role": "system", "content": "Suggest prerequisite task titles only from the supplied list. Return JSON: {suggestions:[{title,confidence,rationale}]}. Do not invent titles."}, {"role": "user", "content": f"Existing task titles: {titles}\nNew task title: {body.title}\nNew task description: {body.description}"}])
     import json
     try:
         suggestions = json.loads(response.choices[0].message.content)["suggestions"]
