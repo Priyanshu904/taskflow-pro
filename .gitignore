@@ -7,3 +7,5 @@ dist/
 build/
 .pytest_cache/
 codex_prompt.md
+codex_finish_prompt.md
+taskflow.txt
