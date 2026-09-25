@@ -2,6 +2,8 @@
 
 TaskFlow Pro is a single workspace Kanban board with dependency-aware readiness and date propagation.
 
+See [DESIGN.md](DESIGN.md) for the architecture, full data model, and propagation details; [TESTING.md](TESTING.md) contains the test report and [FAILURE_CASES.md](FAILURE_CASES.md) records observed edge cases.
+
 ## Run locally
 
 Requirements: Python 3.10+ and Node.js 18+.
