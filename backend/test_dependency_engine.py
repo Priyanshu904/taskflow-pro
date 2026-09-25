@@ -11,8 +11,10 @@ def tasks(*statuses):
 
 
 def test_cycle_detection():
-    edges = [("A", "B"), ("A", "C"), ("B", "C")]
+    edges = [("A", "B"), ("B", "C")]
+    original_edges = edges.copy()
     assert would_create_cycle(edges, "C", "A")
+    assert edges == original_edges
     assert not would_create_cycle(edges, "C", "D")
     assert not would_create_cycle(edges, "A", "C")
 
