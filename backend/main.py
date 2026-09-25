@@ -98,6 +98,7 @@ def serialize_task(task, db, graph):
     result = {key: getattr(task, key) for key in ("id", "title", "description", "status", "start_date", "end_date", "board_position", "created_at", "updated_at")}
     result["computed_status"] = compute_status(tasks[task.id], tasks, edges)
     result["dependencies"] = [upstream for upstream, downstream in edges if downstream == task.id]
+    result["dependency_edges"] = [{"id": edge.id, "upstream_task_id": edge.upstream_task_id} for edge in db.query(Dependency).filter_by(downstream_task_id=task.id).all()]
     return result
 
 
