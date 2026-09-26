@@ -88,7 +88,7 @@ class DependencyInput(BaseModel):
 
 
 def graph_data(db):
-    tasks = {task.id: {"id": task.id, "status": task.status} for task in db.query(Task).all()}
+    tasks = {task.id: {"id": task.id, "status": task.status, "title": task.title} for task in db.query(Task).all()}
     edges = [(edge.upstream_task_id, edge.downstream_task_id) for edge in db.query(Dependency).all()]
     return tasks, edges
 
@@ -98,6 +98,7 @@ def serialize_task(task, db, graph):
     result = {key: getattr(task, key) for key in ("id", "title", "description", "status", "start_date", "end_date", "board_position", "created_at", "updated_at")}
     result["computed_status"] = compute_status(tasks[task.id], tasks, edges)
     result["dependencies"] = [upstream for upstream, downstream in edges if downstream == task.id]
+    result["dependency_titles"] = [tasks[upstream]["title"] for upstream, downstream in edges if downstream == task.id]
     result["dependency_edges"] = [{"id": edge.id, "upstream_task_id": edge.upstream_task_id} for edge in db.query(Dependency).filter_by(downstream_task_id=task.id).all()]
     return result
 
